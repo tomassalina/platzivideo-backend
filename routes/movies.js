@@ -10,6 +10,12 @@ const MoviesService = require('../services/movies');
 // const validationHanlder = require('../utils/middleware/validationHandler');
 // No necesitamos un validationHandler ni esos esquemas ya que estamos utilizando mongoose
 
+const cacheResponse = require('../utils/cacheResponse');
+const {
+  FIVE_MINUTES_IN_SECONDS,
+  SIXTY_MINUTES_IN_SECONDS,
+} = require('../utils/time');
+
 const moviesApi = (app) => {
   const router = express.Router();
 
@@ -18,6 +24,7 @@ const moviesApi = (app) => {
   const movieService = new MoviesService();
 
   router.get('/', async (req, res, next) => {
+    cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
     const { genre: tags } = req.query;
 
     try {
@@ -34,6 +41,7 @@ const moviesApi = (app) => {
   });
 
   router.get('/:movieId', async (req, res, next) => {
+    cacheResponse(res, SIXTY_MINUTES_IN_SECONDS);
     const { movieId } = req.params;
 
     try {
