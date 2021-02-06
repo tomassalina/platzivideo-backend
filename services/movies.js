@@ -1,4 +1,4 @@
-const MongoLib = require('../lib/mongo');
+const MongoLib = require('../lib/movies.mongo');
 
 class MoviesService {
   constructor() {

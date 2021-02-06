@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 
 const { config } = require('./config/index');
-const moviesApi = require('./routes/movies');
 const db = require('./db');
+
+const moviesApi = require('./routes/movies');
+const userMoviesApi = require('./routes/userMovies');
+const authApi = require('./routes/auth');
 
 const morgan = require('morgan');
 const cors = require('cors');
@@ -17,7 +20,7 @@ const {
 } = require('./utils/middleware/errorHandlers');
 
 db(
-  `mongodb://${config.dbUser}:${config.dbPassword}@cluster0-shard-00-00.fs27v.mongodb.net:27017,cluster0-shard-00-01.fs27v.mongodb.net:27017,cluster0-shard-00-02.fs27v.mongodb.net:27017/${config.dbName}?ssl=true&replicaSet=atlas-djw3ne-shard-0&authSource=admin&retryWrites=true&w=majority`
+  `mongodb://${config.dbUser}:${config.dbPassword}@cluster0-shard-00-00.lc6ir.mongodb.net:27017,cluster0-shard-00-01.lc6ir.mongodb.net:27017,cluster0-shard-00-02.lc6ir.mongodb.net:27017/${config.dbName}?ssl=true&replicaSet=atlas-43dtq3-shard-0&authSource=admin&retryWrites=true&w=majority`
 );
 
 // HTTP request logger
@@ -31,6 +34,8 @@ app.use(express.json());
 
 // routes
 moviesApi(app);
+userMoviesApi(app);
+authApi(app);
 
 // catch 404
 app.use(notFoundHandler);

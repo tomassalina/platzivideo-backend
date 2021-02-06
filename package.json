@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index",
+    "dev": "DEBUG=app:* nodemon index",
     "start": "NODE_ENV=production node index",
     "test": "mocha --exit",
     "cover": "nyc npm run test",
@@ -15,12 +15,16 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/boom": "9.1.1",
-    "@hapi/joi": "17.1.1",
+    "bcrypt": "5.0.0",
     "cors": "2.8.5",
     "dotenv": "8.2.0",
     "express": "4.17.1",
+    "jsonwebtoken": "8.5.1",
     "mongoose": "5.11.14",
-    "morgan": "1.10.0"
+    "morgan": "1.10.0",
+    "passport": "0.4.1",
+    "passport-http": "0.3.0",
+    "passport-jwt": "4.0.0"
   },
   "devDependencies": {
     "eslint": "7.18.0",
