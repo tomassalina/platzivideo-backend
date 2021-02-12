@@ -102,10 +102,12 @@ function authApi(app) {
       const { _id: id, name, email } = queriedUser;
 
       const payload = {
-        sub: id,
-        name,
-        email,
-        scopes: apiKey.scopes,
+        sub: {
+          id,
+          name,
+          email,
+          scopes: apiKey.scopes,
+        },
       };
 
       const token = jwt.sign(payload, config.authJwtSecret, {
