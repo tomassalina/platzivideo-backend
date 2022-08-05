@@ -11,8 +11,10 @@ function scopesValidationHandler(allowedScopes) {
       .find((allowed) => Boolean(allowed));
 
     if (hasAccess) {
+      console.log('has access');
       next();
     } else {
+      console.log('not has access');
       next(boom.unauthorized('Insufficient scoopes'));
     }
   };

@@ -10,7 +10,7 @@ const {
 } = require('../utils/time');
 
 // middlewares
-// const scopesValidationHandler = require('../utils/middleware/scopesValidationHandler');
+const scopesValidationHandler = require('../utils/middleware/scopesValidationHandler');
 
 // JWT strategy
 require('../utils/auth/strategies/jwt');
@@ -25,7 +25,7 @@ const moviesApi = (app) => {
   router.get(
     '/',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['read:movies']),
+    scopesValidationHandler(['read:movies']),
     async (req, res, next) => {
       cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
       const { genre: tags } = req.query;
@@ -46,7 +46,7 @@ const moviesApi = (app) => {
   router.get(
     '/:movieId',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['read:movies']),
+    scopesValidationHandler(['read:movies']),
     async (req, res, next) => {
       cacheResponse(res, SIXTY_MINUTES_IN_SECONDS);
       const { movieId } = req.params;
@@ -67,7 +67,7 @@ const moviesApi = (app) => {
   router.post(
     '/',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['create:movies']),
+    scopesValidationHandler(['create:movies']),
     async (req, res, next) => {
       const { body: movie } = req;
 
@@ -87,7 +87,7 @@ const moviesApi = (app) => {
   router.put(
     '/:movieId',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['update:movies']),
+    scopesValidationHandler(['update:movies']),
     async (req, res, next) => {
       const { movieId } = req.params;
       const { body: movie } = req;
@@ -111,7 +111,7 @@ const moviesApi = (app) => {
   router.patch(
     '/:movieId',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['update:movies']),
+    scopesValidationHandler(['update:movies']),
     async (req, res, next) => {
       const { movieId } = req.params;
       const { body: movie } = req;
@@ -135,7 +135,7 @@ const moviesApi = (app) => {
   router.delete(
     '/:movieId',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['delete:movies']),
+    scopesValidationHandler(['delete:movies']),
     async (req, res, next) => {
       const { movieId } = req.params;
 

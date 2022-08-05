@@ -3,6 +3,7 @@ const passport = require('passport');
 const boom = require('@hapi/boom');
 const UserMoviesService = require('../services/userMovies');
 
+// middlewares
 const scopesValidationHandler = require('../utils/middleware/scopesValidationHandler');
 
 // JWT strategy
@@ -40,7 +41,7 @@ function userMoviesApi(app) {
   router.post(
     '/',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['create:user-movies']),
+    scopesValidationHandler(['create:user-movies']),
     async function (req, res, next) {
       const userId = req.user.id;
       const { movieId } = req.body;
@@ -64,7 +65,7 @@ function userMoviesApi(app) {
   router.delete(
     '/:userMovieId',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['delete:user-movies']),
+    scopesValidationHandler(['delete:user-movies']),
     async (req, res, next) => {
       const { userMovieId } = req.params;
 

@@ -83,9 +83,7 @@ function authApi(app) {
   });
 
   router.post('/sign-provider', async (req, res, next) => {
-    const { body } = req;
-
-    const { apiKeyToken, ...user } = body;
+    const { apiKeyToken, ...user } = req.body;
 
     if (!apiKeyToken) {
       next(boom.unauthorized('apiKeyToken is required'));
