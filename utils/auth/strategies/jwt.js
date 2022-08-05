@@ -23,9 +23,16 @@ passport.use(
           return cb(boom.unauthorized(), false);
         }
 
-        delete user.password;
+        delete user._doc.password
 
-        cb(null, { ...user, scopes: tokenPayload.scopes });
+        const parsedUser = {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin
+        }
+
+        cb(null, { ...parsedUser, scopes: tokenPayload.sub.scopes });
       } catch (error) {
         return cb(error);
       }

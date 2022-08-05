@@ -20,7 +20,7 @@ const {
 } = require('./utils/middleware/errorHandlers');
 
 db(
-  `mongodb://${config.dbUser}:${config.dbPassword}@cluster0-shard-00-00.lc6ir.mongodb.net:27017,cluster0-shard-00-01.lc6ir.mongodb.net:27017,cluster0-shard-00-02.lc6ir.mongodb.net:27017/${config.dbName}?ssl=true&replicaSet=atlas-43dtq3-shard-0&authSource=admin&retryWrites=true&w=majority`
+  `mongodb+srv://${config.dbUser}:${config.dbPassword}@cluster0.pdajoye.mongodb.net/?retryWrites=true&w=majority`
 );
 
 // HTTP request logger

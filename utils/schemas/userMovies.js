@@ -6,12 +6,12 @@ const mySchema = new Schema({
   userId: {
     type: Schema.ObjectId,
     ref: 'users',
-    // required: true,
+    required: true,
   },
   movieId: {
     type: Schema.ObjectId,
     ref: 'movies',
-    // required: true,
+    required: true,
   },
 });
 

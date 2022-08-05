@@ -1,11 +1,12 @@
 const express = require('express');
 const passport = require('passport');
+const boom = require('@hapi/boom');
 const UserMoviesService = require('../services/userMovies');
 
-// const scopesValidationHandler = require('../utils/middleware/scopesValidationHandler');
+const scopesValidationHandler = require('../utils/middleware/scopesValidationHandler');
 
 // JWT strategy
-// require('../utils/auth/strategies/jwt');
+require('../utils/auth/strategies/jwt');
 
 function userMoviesApi(app) {
   const router = express.Router();
@@ -17,9 +18,11 @@ function userMoviesApi(app) {
   router.get(
     '/',
     passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['read:user-movies']),
+    scopesValidationHandler(['read:user-movies']),
     async (req, res, next) => {
-      const { userId } = req.query;
+      const userId = req.user.id;
+
+      if (!userId) return next(boom.badRequest('userId is required'));
 
       try {
         const userMovies = await userMoviesService.getUserMovies({ userId });
@@ -39,11 +42,13 @@ function userMoviesApi(app) {
     passport.authenticate('jwt', { session: false }),
     // scopesValidationHandler(['create:user-movies']),
     async function (req, res, next) {
-      const { body: userMovie } = req;
+      const userId = req.user.id;
+      const { movieId } = req.body;
 
       try {
         const createdUserMovieId = await userMoviesService.createUserMovies({
-          userMovie,
+          userId,
+          movieId,
         });
 
         res.status(201).json({
