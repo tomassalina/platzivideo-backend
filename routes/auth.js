@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const ApiKeysService = require('../services/apiKeys');
 const UsersService = require('../services/users');
+const { usersValidator } = require('../utils/usersValidator')
 const { config } = require('../config');
 
 // Basic strategy
@@ -56,7 +57,7 @@ function authApi(app) {
           };
 
           const token = jwt.sign(payload, config.authJwtSecret, {
-            expiresIn: '30d',
+            expiresIn: '7d',
           });
 
           return res.status(200).json({ token, user: { id, name, email } });
@@ -71,13 +72,19 @@ function authApi(app) {
     const { body: user } = req;
 
     try {
-      const createdUserId = await usersService.createUser({ user });
+      const reqValidation = await usersValidator.validateAsync(user)
+
+      const userAlreadyExits = await usersService.getUser({ email: reqValidation.email })
+      if (userAlreadyExits) return next(boom.badRequest('email address already exits'))
+
+      const createdUserId = await usersService.createUser({ user: reqValidation });
 
       res.status(201).json({
         data: createdUserId,
         message: 'user created',
       });
     } catch (err) {
+      if (err.isJoi) return next(boom.badRequest(err.message))
       next(err);
     }
   });
