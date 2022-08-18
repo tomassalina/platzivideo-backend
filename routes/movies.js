@@ -28,10 +28,10 @@ const moviesApi = (app) => {
     scopesValidationHandler(['read:movies']),
     async (req, res, next) => {
       cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
-      const { genre: tags } = req.query;
+      const { genre: tags, query } = req.query;
 
       try {
-        const movies = await movieService.getMovies({ tags });
+        const movies = await movieService.getMovies({ tags, query });
 
         res.status(200).json({
           data: movies,

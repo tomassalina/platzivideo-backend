@@ -5,9 +5,13 @@ class MoviesService {
     this.mongoDB = new MongoLib();
   }
 
-  async getMovies({ tags }) {
-    const query = tags && { tags: { $in: tags } };
-    const movies = await this.mongoDB.getAll(query);
+  async getMovies({ tags, query }) {
+    let filter = {};
+
+    if (tags) filter = { tags: { $in: tags } };
+    if (query) filter = { ...filter, title: { $regex: query, $options: 'i' } };
+
+    const movies = await this.mongoDB.getAll(filter);
     return movies || [];
   }
 
